@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Salary:
     currency: str | None = None
     salary_from: int | None = None
@@ -134,7 +134,7 @@ class Salary:
         return False
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Vacancy:
     name: str
     url: str
