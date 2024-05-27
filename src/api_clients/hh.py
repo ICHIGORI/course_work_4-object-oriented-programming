@@ -10,6 +10,9 @@ class HeadHunterAPI(VacancyApiClient):
         self.per_page = per_page
 
     def _parse_vacancy_data(self, data: dict) -> Vacancy:
+        """
+        Парсит данные и создаёт вакансию"""
+
         return Vacancy(
             name=data["name"],
             url=data["url"],
@@ -22,6 +25,13 @@ class HeadHunterAPI(VacancyApiClient):
         )
 
     def get_vacancies(self, search_text: str) -> list[Vacancy]:
+        """
+        Посылает get запрос, получения вакансий сайта hh.ru, используя API
+
+        :param search_text: Ключевое слово, по которому выбираются вакансии
+        :return: Список вакансий
+        """
+
         params = {
             "only_with_salary":  True,
             "per_page": self.per_page,

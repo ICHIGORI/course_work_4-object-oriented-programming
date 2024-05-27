@@ -10,12 +10,18 @@ class JSONConnector(FileConnector):
         self.encoding = encoding
 
     def _save(self, *vacancies: Vacancy) -> None:
+        """
+        Сохраняет вакансии в файл"""
+
         data = [self._parse_vacancy_to_dict(vacancy) for vacancy in vacancies]
         with self.file_path.open('w', encoding=self.encoding) as file:
             json.dump(data, file, ensure_ascii=False, indent=2)
 
     @staticmethod
     def _parse_vacancy_to_dict(vacancy: Vacancy) -> dict:
+        """
+        Парсит данные вакансии и приводит их к формату словаря"""
+
         return {
             "name": vacancy.name,
             "url": vacancy.url,
@@ -29,6 +35,9 @@ class JSONConnector(FileConnector):
 
     @staticmethod
     def _parse_dict_to_vacancy(data: dict) -> Vacancy:
+        """
+        Парсит данные словаря и создаёт объект вакансии"""
+
         return Vacancy(
             name=data["name"],
             url=data["url"],
@@ -41,6 +50,9 @@ class JSONConnector(FileConnector):
         )
 
     def get_vacancies(self) -> list[Vacancy]:
+        """
+        Возвращает список вакансий из файла"""
+
         if not self.file_path.exists():
             return []
 
@@ -53,12 +65,18 @@ class JSONConnector(FileConnector):
         return vacancies
 
     def add_vacancy(self, vacancy: Vacancy) -> None:
+        """
+        Сохраняет вакансии в файл, если их там ранее не было"""
+
         vacancies = self.get_vacancies()
         if vacancy not in vacancies:
             vacancies.append(vacancy)
             self._save(*vacancies)
 
     def delete_vacancies(self, vacancy: Vacancy) -> None:
+        """
+        Удаляет вакансию из файла, если она там ранее была"""
+
         vacancies = self.get_vacancies()
         if vacancy in vacancies:
             vacancies.remove(vacancy)

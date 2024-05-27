@@ -8,13 +8,21 @@ class UserAssistant:
         self.api_client = api_client
         self.json_connector = json_connector
 
-    def search_vacancies(self):
+    def search_vacancies(self) -> None:
+        """
+        Спрашивает у пользователя по какому ключевому слову сортировать вакансии
+        и создаёт список вакансий, имеющих ключевое слово пользователя
+        """
+
         search_word = input("Введите ключевое слово, для поиска:")
         vacancies = self.api_client.get_vacancies(search_word.lower())
         for vac in vacancies:
             self.json_connector.add_vacancy(vac)
 
-    def show_vacancies(self):
+    def show_vacancies(self) -> None:
+        """
+        Отображает необходимое количество ранее найденных вакансий"""
+
         n = input("Сколько вакансий вывести?\nНе больше 1000\n->")
         if not n.isdigit():
             print("У меня не получилось")
