@@ -1,5 +1,5 @@
 import pytest
-from src.dto import Salary
+from src.dto import Salary, Vacancy
 
 
 class TestSalary:
@@ -97,3 +97,9 @@ class TestSalary:
         salary_2 = Salary(currency='RUB', **more_or_equal[1])
 
         assert salary_1 >= salary_2
+
+
+class TestVacancy:
+
+    def test_sort_top(self, vacancies):
+        assert sorted(vacancies, key=lambda x: x.salary, reverse=True) == vacancies[::-1]
