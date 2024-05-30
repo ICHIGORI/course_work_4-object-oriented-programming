@@ -11,20 +11,29 @@ class HeadHunterAPI(VacancyApiClient):
         self.url = url
         self.per_page = per_page
 
-    def _parse_vacancy_data(self, data: dict) -> Vacancy:
+    @staticmethod
+    def _parse_vacancy_data(response: requests.Response) -> list[Vacancy]:
         """
-        Парсит данные и создаёт вакансию"""
+        Парсит данные и создаёт список вакансий"""
 
-        return Vacancy(
-            name=data["name"],
-            url=data["url"],
-            employer_name=data["employer"]["name"],
-            salary=Salary(
-                salary_from=data["salary"]["from"],
-                salary_to=data["salary"]["to"],
-                currency=data["salary"]["currency"]
+        def _get_vacancy(data: dict) -> Vacancy:
+            """Создаёт, возвращает объект вакансии из словаря"""
+
+            return Vacancy(
+                name=data["name"],
+                url=data["url"],
+                employer_name=data["employer"]["name"],
+                salary=Salary(
+                    salary_from=data["salary"]["from"],
+                    salary_to=data["salary"]["to"],
+                    currency=data["salary"]["currency"]
+                    )
             )
-        )
+
+        return [
+            _get_vacancy(item)
+            for item in response.json()["items"]
+        ]
 
     def get_vacancies(self, search_text: str) -> list[Vacancy]:
         """
@@ -45,10 +54,4 @@ class HeadHunterAPI(VacancyApiClient):
             print(f"Ошибка получения данных с hh.ru, {response.content}")
             return []
 
-        return [
-            self._parse_vacancy_data(item)
-            for item in response.json()["items"]
-        ]
-
-
-
+        return self._parse_vacancy_data(response)

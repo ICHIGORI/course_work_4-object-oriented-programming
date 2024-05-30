@@ -8,6 +8,10 @@ class VacancyApiClient(ABC):
     реализующим функционал взаимодействия с API.
     """
 
+    @staticmethod
+    def _parse_vacancy_data(data) -> list[Vacancy]:
+        pass
+
     @abstractmethod
     def get_vacancies(self, search_text: str) -> list[Vacancy]:
         pass
