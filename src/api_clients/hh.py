@@ -4,6 +4,8 @@ from src.dto import Vacancy, Salary
 
 
 class HeadHunterAPI(VacancyApiClient):
+    """
+    Взаимодействует с набором данных по вакансиям, сайта hh, используя API"""
 
     def __init__(self, url="https://api.hh.ru/vacancies/", per_page=100):
         self.url = url

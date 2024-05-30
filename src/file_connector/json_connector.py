@@ -5,6 +5,11 @@ from ..dto import Vacancy, Salary
 
 
 class JSONConnector(FileConnector):
+    """
+    Получает, сохраняет, удаляет наборы данных вакансий,
+    используя формат JSON
+    """
+
     def __init__(self, file_path: Path, encoding: str = "utf-8"):
         self.file_path = file_path
         self.encoding = encoding
