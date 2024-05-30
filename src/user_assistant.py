@@ -4,6 +4,10 @@ from src.file_connector.base import FileConnector
 
 
 class UserAssistant:
+    """
+    Помогает пользователю взаимодействовать с функционалом ПО.
+    Получает данные от пользователя для ПО и возвращает данные ПО - пользователю.
+    """
     def __init__(self, api_client: VacancyApiClient, json_connector: FileConnector):
         self.api_client = api_client
         self.json_connector = json_connector

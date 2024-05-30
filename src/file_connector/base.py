@@ -3,6 +3,10 @@ from src.dto import Vacancy
 
 
 class FileConnector(ABC):
+    """
+    Представляет общие требования к будущим классам,
+    реализующим взаимодействия программы с набором данных вакансий.
+    """
 
     @abstractmethod
     def get_vacancies(self) -> list[Vacancy]:
