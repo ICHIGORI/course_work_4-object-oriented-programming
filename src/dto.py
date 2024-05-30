@@ -3,6 +3,25 @@ from dataclasses import dataclass
 
 @dataclass(unsafe_hash=True)
 class Salary:
+    """
+    Объект зарплаты.
+    Содержит шаблон, стандарт атрибутов.
+    Реализует функционал сравнения объектов этого класса
+
+    Сравнение по правилам:
+        :Курс валют не учитывается
+        :Валюты не учитываются
+
+        :приоритеты:
+            :int приоритетнее None (None, None < int, None) = True
+            :salary_to сравнивается только с salary_to | аналогично для salary_from
+            (salary_to=1, salary_from=2 < salary_to=2, salary_from=None) = (salary_to=1 < salary_to=2) = True
+
+            :наличие всех атрибутов сравнивается по двум средним
+            (salary_to=1, salary_from=5 == salary_to=2. salary_from=4)
+            (salary_to + salary_from) / 2 == (salary_to + salary_from) / 2
+            3 == 3 = True
+    """
     currency: str | None = None
     salary_from: int | None = None
     salary_to: int | None = None
@@ -136,6 +155,10 @@ class Salary:
 
 @dataclass(unsafe_hash=True)
 class Vacancy:
+    """
+    Объект вакансии.
+    Содержит шаблон, стандарт атрибутов
+    """
     name: str
     url: str
     employer_name: str
