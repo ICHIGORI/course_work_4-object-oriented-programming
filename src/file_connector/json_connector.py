@@ -11,7 +11,7 @@ class JSONConnector(FileConnector):
     """
 
     def __init__(self, file_path: Path, encoding: str = "utf-8"):
-        self.file_path = file_path
+        self.__file_path = file_path
         self.encoding = encoding
 
     def _save(self, *vacancies: Vacancy) -> None:
@@ -19,7 +19,7 @@ class JSONConnector(FileConnector):
         Сохраняет вакансии в файл"""
 
         data = [self._parse_vacancy_to_dict(vacancy) for vacancy in vacancies]
-        with self.file_path.open('w', encoding=self.encoding) as file:
+        with self.__file_path.open('w', encoding=self.encoding) as file:
             json.dump(data, file, ensure_ascii=False, indent=2)
 
     @staticmethod
@@ -58,11 +58,11 @@ class JSONConnector(FileConnector):
         """
         Возвращает список вакансий из файла"""
 
-        if not self.file_path.exists():
+        if not self.__file_path.exists():
             return []
 
         vacancies = []
-        with self.file_path.open(encoding=self.encoding) as file:
+        with self.__file_path.open(encoding=self.encoding) as file:
             for item in json.load(file):
                 vacancy = self._parse_dict_to_vacancy(item)
                 vacancies.append(vacancy)
