@@ -8,8 +8,8 @@ class HeadHunterAPI(VacancyApiClient):
     Взаимодействует с набором данных по вакансиям, сайта hh, используя API"""
 
     def __init__(self, url="https://api.hh.ru/vacancies/", per_page=100):
-        self.url = url
-        self.per_page = per_page
+        self.__url = url
+        self.__per_page = per_page
 
     @staticmethod
     def _parse_vacancy_data(response: requests.Response) -> list[Vacancy]:
@@ -45,11 +45,11 @@ class HeadHunterAPI(VacancyApiClient):
 
         params = {
             "only_with_salary":  True,
-            "per_page": self.per_page,
+            "per_page": self.__per_page,
             "text": search_text
         }
 
-        response = requests.get(self.url, params, timeout=4)
+        response = requests.get(self.__url, params, timeout=4)
         if not response.ok:
             print(f"Ошибка получения данных с hh.ru, {response.content}")
             return []
